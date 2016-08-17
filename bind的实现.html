@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>bind的实现</title>
+</head>
+<body>
+	<script type="text/javascript">
+		Function.prototype.bind = function(context){
+			if(typeof this !== "function"){
+				throw "not a function";
+			}
+			var	args = Array.prototype.slice.call(arguments, 1),
+				self = this,
+				f = function(){
+					console.log('short implementation')
+					return self.apply(context, args.concat(Array.prototype.slice.call(arguments)));
+				}
+			return f;
+		}
+
+		function a(){
+			this.n = 2;
+			console.log(this)
+		}
+		var p = new a();
+
+		var b = (function(o, p, q){
+			console.log(this.n, o, p, q);
+		}).bind(p, 1);
+
+		b(2,3);
+	</script>
+</body>
+</html>
