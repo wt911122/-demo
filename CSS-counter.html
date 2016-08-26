@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>css counter</title>
+	<style type="text/css">
+		p{
+			counter-increment: par-num;
+		}
+		h1{
+			counter-reset: par-num;
+		}
+		p::before{
+			content: counter(par-num, upper-roman) ". ";
+		}
+		button:active{
+			font-size: 1em;
+			color: red;
+		}
+	</style>
+</head>
+<body>
+<h1>asdada</h1>
+<p>sdfasfasfasfasfsafsfsa</p>
+<p>sdfasfasfasfasfsafsfsa</p>
+<p>sdfasfasfasfasfsafsfsa</p>
+<p>sdfasfasfasfasfsafsfsa</p>
+<p>sdfasfasfasfasfsafsfsa</p>
+<h1>hpokop</h1>
+<p>gfgjgjidofjgkdjgfdklgfndb</p>
+<p>gfgjgjidofjgkdjgfdklgfndb</p>
+<p>gfgjgjidofjgkdjgfdklgfndb</p>
+<p>gfgjgjidofjgkdjgfdklgfndb</p>
+<p>gfgjgjidofjgkdjgfdklgfndb</p>
+
+<button>asdadadas</button>
+</body>
+</html>

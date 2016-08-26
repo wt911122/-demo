@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>classExtends实现</title>
+</head>
+<body>
+<script type="text/javascript">
+	function superClass(name){
+		this.name = name
+		console.log(name);
+	}
+	superClass.prototype = {
+		getName: function(){
+			return "My name is" + this.name;
+		}
+	}
+
+	function subClass(age){
+		console.log("sub")
+		this.age = age
+	}
+	subClass.prototype = {
+		getAge: function(){
+			return "My age is" + (this.age + 1);
+		}
+	}
+
+	function _extends(sub, sup){
+		//var f = function(){
+		//	this.constructor = sub;
+		//}
+		//f.prototype = Object.create(sup.prototype);
+		sub.prototype = Object.create(sup.prototype);
+		sub.prototype.constructor = sub;
+	}
+
+	var extend = function(subclass, superclass) {
+		"use strict";
+
+		function o() { this.constructor = subclass; }
+		o.prototype = superclass.prototype;
+		return (subclass.prototype = new o());
+	};
+
+	var promote = function(subclass, prefix) {
+		"use strict";
+
+		var subP = subclass.prototype, supP = (Object.getPrototypeOf&&Object.getPrototypeOf(subP))||subP.__proto__;
+		console.log(subP, supP)
+		if (supP) {
+			subP[(prefix+="_") + "constructor"] = supP.constructor; // constructor is not always innumerable
+			for (var n in supP) {
+				if (subP.hasOwnProperty(n) && (typeof supP[n] == "function")) { subP[prefix + n] = supP[n]; }
+			}
+		}
+		return subclass;
+	};
+	//_extends(subClass, superClass);
+	//console.log(subClass.prototype);
+	//extend2(subClass, superClass);
+	//console.log(subClass.prototype);
+
+
+	function ClassA(name) {
+  		this.name = name;
+  	}
+  	ClassA.prototype.greet = function() {
+  		return "Hello "+this.name;
+  	}
+  	ClassA.pig = function(){
+  		console.log("pig");
+  	}
+ 
+  	function ClassB(name, punctuation) {
+  		this.ClassA_constructor(name);
+  		this.punctuation = punctuation;
+  	}
+  	extend(ClassB, ClassA);
+  	ClassB.prototype.greet = function() {
+  		return this.ClassA_greet()+this.punctuation;
+  	}
+  	promote(ClassB, "ClassA");
+
+
+function SuperObj(name){
+	this.name = name;
+}
+SuperObj.prototype.getName = function(){
+	return this.name;
+}
+
+function SubObj(name, age){
+	SuperObj.call(this, name);
+	this.age = age;
+}
+SubObj.prototype = Object.create(SuperObj.prototype);
+SubObj.prototype.constructor = SubObj;
+SubObj.prototype.getAge = function(){
+	return this.age;
+}
+var obj = new SubObj('aa', 'bb');
+	console.log(obj);
+
+class SuperObj2{
+	constructor(name){
+		this.name = name;
+	}
+	get Name(){
+		return this.name;
+	}
+}
+
+class SubObj2 extends SuperObj2{
+	constructor(name, age){
+		super(name);
+		this.age = age;
+	}
+	get Age(){
+		return this.age;
+	}
+}
+var obj2 = new SubObj2('aa', 'bb');
+console.log(obj2);
+</script>
+</body>
+</html>
